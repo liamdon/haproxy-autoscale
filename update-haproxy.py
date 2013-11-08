@@ -55,13 +55,9 @@ def main():
                       content=generate_haproxy_config(template=args.template,
                                                       instances=instances    ))
         
-        # Get PID if haproxy is already running.
-        logging.info('Fetching PID from %s.' % args.pid)
-        pid = file_contents(filename=args.pid)
-        
         # Restart haproxy.
         logging.info('Restarting haproxy.')
-        command = '''%s -p %s -f %s -sf %s''' % (args.haproxy, args.pid, args.output, pid or '')
+        command = 'sudo /etc/init.d/haproxy reload'
         logging.info('Executing: %s' % command)
         subprocess.call(command, shell=True)
     else:
